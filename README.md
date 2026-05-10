@@ -60,7 +60,9 @@ After publishing, the OpenCode plugin config can reference the package by name:
 
 ## Package contract
 
-The package is intentionally **TUI-only**. It exposes only `exports["./tui"]`, and that entry default-exports an OpenCode plugin module with this shape:
+The package is intentionally **TUI-only**. It exposes only `exports["./tui"]`, and that entry points to raw `tui.tsx` source so OpenCode can compile it directly instead of loading prebuilt JS through `@opentui/solid/jsx-runtime`.
+
+That TUI entry default-exports an OpenCode plugin module with this shape:
 
 ```ts
 {

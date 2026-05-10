@@ -1,18 +1,17 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "opencode-elapsed-plugin",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A small OpenCode TUI plugin that shows prompt-side elapsed activity timers.",
   "license": "MIT",
   "type": "module",
   "exports": {
     "./tui": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "default": "./tui.tsx"
     }
   },
   "files": [
-    "dist",
+    "tui.tsx",
     "README.md",
     "LICENSE"
   ],
@@ -30,7 +29,7 @@
     "elapsed",
     "timer"
   ],
-  "peerDependencies": {
+  "dependencies": {
     "@opentui/solid": "^0.2.6",
     "solid-js": "^1.9.12"
   },
