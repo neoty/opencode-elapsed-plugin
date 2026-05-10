@@ -8,52 +8,76 @@
 
 The v1 implementation keeps the logic intentionally simple: every second it recomputes the latest timestamps from `api.state.session.messages(sessionID)` instead of maintaining a mutable cache.
 
-## Install for local development
+## Use in OpenCode
 
-```bash
-npm install
-npm test
-npm run build
-```
+### Global config
 
-## Use as a local plugin package
-
-Build the package, then point OpenCode at the local folder or a packed tarball.
-
-### Local folder spec
-
-```json
-{
-  "plugin": [
-    "file:/absolute/path/to/opencode-elapsed-plugin"
-  ]
-}
-```
-
-### Tarball workflow
-
-```bash
-npm pack
-```
-
-That produces a file such as `opencode-elapsed-plugin-1.0.0.tgz`, which can be used anywhere OpenCode accepts an npm package spec.
-
-## Publish manually
-
-This repo intentionally does not include CI publishing automation yet.
-
-1. Run `npm test`
-2. Run `npm run build`
-3. Run `npm pack` and inspect the tarball contents
-4. Log in with `npm login` if needed
-5. Publish with `npm publish`
-
-After publishing, the OpenCode plugin config can reference the package by name:
+Add the package name to your global OpenCode plugin config:
 
 ```json
 {
   "plugin": [
     "opencode-elapsed-plugin"
+  ]
+}
+```
+
+Then restart OpenCode.
+
+### Per-project config
+
+If you want to enable it only for one project, add the same package name to that project's OpenCode config:
+
+```json
+{
+  "plugin": [
+    "opencode-elapsed-plugin"
+  ]
+}
+```
+
+Then restart OpenCode inside that project.
+
+### Install from the OpenCode settings UI
+
+If you are using the settings screen:
+
+1. Open OpenCode settings
+2. Go to the plugin install/add section
+3. Paste `opencode-elapsed-plugin`
+4. Save or install
+5. Restart OpenCode
+
+## What you should see
+
+- `idle`, `busy`, or `retry` status in the prompt area
+- `cmd` timer for the latest user message
+- `agent` timer for the latest completed assistant response
+
+## Reinstall or refresh
+
+If OpenCode keeps using an older cached version, remove the cached package and restart OpenCode:
+
+```bash
+rm -rf ~/.cache/opencode/packages/opencode-elapsed-plugin@latest
+```
+
+If needed, remove all cached versions:
+
+```bash
+rm -rf ~/.cache/opencode/packages/opencode-elapsed-plugin@*
+```
+
+Then start OpenCode again.
+
+## Local plugin path
+
+If you want to load the plugin from a local folder instead of npm, point OpenCode at the folder path:
+
+```json
+{
+  "plugin": [
+    "file:/absolute/path/to/opencode-elapsed-plugin"
   ]
 }
 ```
@@ -74,10 +98,3 @@ That TUI entry default-exports an OpenCode plugin module with this shape:
 ```
 
 There is no server plugin in v1.
-
-## Scripts
-
-- `npm test` – run helper and plugin smoke tests
-- `npm run typecheck` – run TypeScript without emitting files
-- `npm run build` – emit the publishable `dist/` package
-- `npm pack` – create the publishable tarball
