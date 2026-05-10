@@ -60,7 +60,7 @@ After publishing, the OpenCode plugin config can reference the package by name:
 
 ## Package contract
 
-The package exposes the TUI entry through `exports["./tui"]` and that entry default-exports an OpenCode plugin module with this shape:
+The package is intentionally **TUI-only**. It exposes only `exports["./tui"]`, and that entry default-exports an OpenCode plugin module with this shape:
 
 ```ts
 {
